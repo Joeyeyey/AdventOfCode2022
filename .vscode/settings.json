@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "string": "cpp",
-        "queue": "cpp",
-        "*.tcc": "cpp",
-        "istream": "cpp"
-    }
-}
