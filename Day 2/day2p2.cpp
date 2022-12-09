@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -14,56 +14,54 @@ Draw = 3 points
 Win = 6 points
 */
 
-
 const string inputFileName = "input.txt";
 
 int main() {
-
     ifstream inputFile(inputFileName);
     string line;
-    
+
     int myPoints = 0;
 
-    while(getline(inputFile, line)) {
+    while (getline(inputFile, line)) {
         switch (line[2]) {
-            case 'X' : 
+            case 'X':
                 myPoints += 0;
                 switch (line[0]) {
-                    case 'A' :
+                    case 'A':
                         myPoints += 3;
                         break;
-                    case 'B' :
+                    case 'B':
                         myPoints += 1;
                         break;
-                    case 'C' :
+                    case 'C':
                         myPoints += 2;
                         break;
                 }
                 break;
-            case 'Y' : 
+            case 'Y':
                 myPoints += 3;
                 switch (line[0]) {
-                    case 'A' :
+                    case 'A':
                         myPoints += 1;
                         break;
-                    case 'B' :
+                    case 'B':
                         myPoints += 2;
                         break;
-                    case 'C' :
+                    case 'C':
                         myPoints += 3;
                         break;
                 }
                 break;
-            case 'Z' : 
+            case 'Z':
                 myPoints += 6;
                 switch (line[0]) {
-                    case 'A' :
+                    case 'A':
                         myPoints += 2;
                         break;
-                    case 'B' :
+                    case 'B':
                         myPoints += 3;
                         break;
-                    case 'C' :
+                    case 'C':
                         myPoints += 1;
                         break;
                 }

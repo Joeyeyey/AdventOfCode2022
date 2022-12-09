@@ -2,8 +2,8 @@ INPUT_FILE = "input.txt"
 
 if __name__ == "__main__":
 
-    max_calories = 0;
-    curr_calories = 0;
+    max_calories = 0
+    curr_calories = 0
 
     with open(INPUT_FILE) as input_file:
         for line in input_file:

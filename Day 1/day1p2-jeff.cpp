@@ -5,7 +5,6 @@ using namespace std;
 const string input_file = "input.txt";
 
 int main() {
-    
     ifstream inputStream(input_file);
 
     // priority_queue<int, vector<int>, greater<int>> max_heap;
@@ -22,8 +21,7 @@ int main() {
         }
     }
 
-    if (curr_sum != 0)
-        min_heap.push(curr_sum);
+    if (curr_sum != 0) min_heap.push(curr_sum);
 
     // while (min_heap.size() > k) {
     //     min_heap.pop();
