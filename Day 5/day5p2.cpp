@@ -120,7 +120,8 @@ const int CargoStack::moveCrate(const int fromIdx, const int toIdx) {
     m_crateStacks[toIdx].push_back(m_crateStacks[fromIdx].back());
     m_crateStacks[fromIdx].pop_back();
 
-    cout << "Moved a create from stack #" << fromIdx + 1 << " to stack #" << toIdx + 1 << endl;
+    cout << "Moved a create from stack #" << fromIdx + 1 << " to stack #" <<
+toIdx + 1 << endl;
 
     return m_crateStacks[toIdx].size();
 }
@@ -135,7 +136,8 @@ const int CargoStack::moveCrates(const int amount, const int fromIdx,
     int m = m_crateStacks[fromIdx].size();
     int amountToMove = (amount <= m ? amount : m);
 
-    m_crateStacks[toIdx].append(m_crateStacks[fromIdx].substr(m_crateStacks[fromIdx].size() - amountToMove));
+    m_crateStacks[toIdx].append(m_crateStacks[fromIdx].substr(
+        m_crateStacks[fromIdx].size() - amountToMove));
     m_crateStacks[fromIdx].erase(m_crateStacks[fromIdx].size() - amountToMove);
 
     return m_crateStacks[toIdx].size();
