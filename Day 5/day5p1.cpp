@@ -65,9 +65,9 @@ int main() {
 
     ifstream inputFile(inputFileName);
 
-    string line;
+    string line = "";
 
-    int oplimit = 10;
+    int oplimit = 999;
 
     int opNum = 1;
     while (getline(inputFile, line) && oplimit--) {
@@ -87,6 +87,7 @@ int main() {
 
 CargoStack::CargoStack(int stacks) : m_numStacks(stacks) {
     m_crateStacks.reserve(m_numStacks);
+    m_crateStacks.assign(m_numStacks, "");
 }
 
 const int CargoStack::addStringToStack(const int stackIdx,
@@ -110,7 +111,7 @@ const int CargoStack::moveCrate(const int fromIdx, const int toIdx) {
     assert(0 <= fromIdx && fromIdx < m_numStacks);
     assert(0 <= toIdx && toIdx < m_numStacks);
     // assert(crateStacks[fromIdx].size() != 0);
-    if (m_crateStacks[fromIdx].size() == 0) return;
+    if (m_crateStacks[fromIdx].size() == 0) return 0;
 
     m_crateStacks[toIdx].push_back(m_crateStacks[fromIdx].back());
     m_crateStacks[fromIdx].pop_back();
