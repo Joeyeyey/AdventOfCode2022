@@ -29,8 +29,8 @@ class CargoStack {
     const int getNumStacks();
 
    private:
-    const int numStacks;
-    vector<string> crateStacks;
+    const int m_numStacks;
+    vector<string> m_crateStacks;
 };
 
 moveOperation parseLine(string line) {
@@ -50,21 +50,27 @@ moveOperation parseLine(string line) {
 }
 
 int main() {
-    const string startingCrates[] = {
+    vector<string> startingCrates = {
         "NCRTMZP",  "DNTSBZ",  "MHQRFCTG", "GRZ",   "ZNRH",
         "FHSWPZLD", "WDZRCGM", "SJFLHWZQ", "SQPWN",
     };
 
-    CargoStack myCargoStack;
-    for (int i = 0; i < 9; i++)
+    cout << "Starting crates size: " << startingCrates.size() << endl;
+
+    CargoStack myCargoStack(9);
+    cout << "m_numStacks: " << myCargoStack.getNumStacks() << endl;
+
+    for (int i = 0; i < startingCrates.size(); i++)
         myCargoStack.addStringToStack(i, startingCrates[i]);
 
     ifstream inputFile(inputFileName);
 
     string line;
 
+    int oplimit = 10;
+
     int opNum = 1;
-    while (getline(inputFile, line)) {
+    while (getline(inputFile, line) && oplimit--) {
         moveOperation op = parseLine(line);
         cout << "===== Operation #" << opNum++ << "=====" << endl;
         cout << "move " << op.amount << " from " << op.fromIdx + 1 << " to "
@@ -79,68 +85,72 @@ int main() {
     cout << endl << "Crate tops: " << myCargoStack.getTops() << endl;
 }
 
-CargoStack::CargoStack(int stacks)
-    : numStacks(stacks) {
-    crateStacks.reserve(numStacks);
+CargoStack::CargoStack(int stacks) : m_numStacks(stacks) {
+    m_crateStacks.reserve(m_numStacks);
 }
 
 const int CargoStack::addStringToStack(const int stackIdx,
                                        const string crates) {
-    assert(0 <= stackIdx && stackIdx < numStacks);
+    assert(0 <= stackIdx && stackIdx < m_numStacks);
 
     cout << "Adding string \"" << crates << "\" to stack #" << stackIdx + 1
          << endl;
 
     for (int i = 0; i < crates.size(); i++) {
-        crateStacks[stackIdx] += crates[i];
+        m_crateStacks[stackIdx] += crates[i];
     }
 
-    return crateStacks[stackIdx].size();
+    cout << "Stack #" << stackIdx + 1
+         << " now contains: " << printStack(stackIdx) << endl;
+
+    return m_crateStacks[stackIdx].size();
 }
 
 const int CargoStack::moveCrate(const int fromIdx, const int toIdx) {
-    assert(0 <= fromIdx && fromIdx < numStacks);
-    assert(0 <= toIdx && toIdx < numStacks);
+    assert(0 <= fromIdx && fromIdx < m_numStacks);
+    assert(0 <= toIdx && toIdx < m_numStacks);
     // assert(crateStacks[fromIdx].size() != 0);
-    if (!(crateStacks[fromIdx].size() == 0)) return;
+    if (m_crateStacks[fromIdx].size() == 0) return;
 
-    crateStacks[toIdx].push_back(crateStacks[fromIdx].back());
-    crateStacks[fromIdx].pop_back();
+    m_crateStacks[toIdx].push_back(m_crateStacks[fromIdx].back());
+    m_crateStacks[fromIdx].pop_back();
 
-    return crateStacks[toIdx].size();
+    cout << "Moved a create from stack #" << fromIdx + 1 << " to stack #" << toIdx + 1 << endl;
+
+    return m_crateStacks[toIdx].size();
 }
 
 const int CargoStack::moveCrates(const int amount, const int fromIdx,
                                  const int toIdx) {
-    assert(0 <= fromIdx && fromIdx < numStacks);
-    assert(0 <= toIdx && toIdx < numStacks);
+    assert(0 <= fromIdx && fromIdx < m_numStacks);
+    assert(0 <= toIdx && toIdx < m_numStacks);
     // assert(crateStacks[fromIdx].size() >= amount);
 
-    int m = crateStacks[fromIdx].size();
-    for (int i = 0; i < (amount ? amount <= m : m); i++) {
+    int m = m_crateStacks[fromIdx].size();
+    for (int i = 0; i < (amount <= m ? amount : m); i++) {
         moveCrate(fromIdx, toIdx);
     }
 
-    return crateStacks[toIdx].size();
+    return m_crateStacks[toIdx].size();
 }
 
 const string CargoStack::printStack(const int idx) {
-    assert(0 <= idx && idx < numStacks);
+    assert(0 <= idx && idx < m_numStacks);
 
     string strStack = "";
-    for (int i = 0; i < crateStacks[idx].size(); i++) {
-        strStack += crateStacks[idx][i];
+    for (int i = 0; i < m_crateStacks[idx].size(); i++) {
+        strStack += m_crateStacks[idx][i];
     }
     return strStack;
 }
 
 const string CargoStack::getTops() {
     string tops = "";
-    for (int i = 0; i < numStacks; i++) {
-        tops += crateStacks[i].back();
+    for (int i = 0; i < m_numStacks; i++) {
+        tops += m_crateStacks[i].back();
     }
 
     return tops;
 }
 
-const int CargoStack::getNumStacks() { return numStacks; }
+const int CargoStack::getNumStacks() { return m_numStacks; }
